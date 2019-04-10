@@ -14,6 +14,10 @@ import java.util.Date;
  */
 public class Records {
 
+    public Records() {
+        this(null);
+    }
+
     public Records(String db_loc) {
     }
 
@@ -24,7 +28,7 @@ public class Records {
                                         Reservation.ResType res_type,
                                         Date date_in, Date date_out,
                                         String name,
-                                        CreditCard cc, String email) {
+                                        CreditCard cc, String email) throws RecordsException {
     }
 
     public Reservation create_reservation(Reservation.ResType res_type,

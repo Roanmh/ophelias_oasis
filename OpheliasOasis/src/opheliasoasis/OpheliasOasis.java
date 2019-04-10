@@ -8,6 +8,8 @@ package opheliasoasis;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.System.out;
+
 /**
  * Main class and CLI operator.
  *
@@ -15,14 +17,17 @@ import java.util.List;
  */
 public class OpheliasOasis {
 
+    private final Records record;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Software Engineering");
+        out.println("Software Engineering");
     }
 
     public OpheliasOasis() {
+        this.record = new Records();
     }
 
     private void parse() {
@@ -31,7 +36,18 @@ public class OpheliasOasis {
     private void res_Create() {
     }
 
-    private void res_ChangeDate() {
+    private void res_ChangeDate(Date date_in, Date date_int_new, Date date_out_new) {
+        // Get specific Reservation id from lookup
+        out.println("First, Choose a Reservation");
+        int res_id = choose_single(date_in);
+
+        // Call edit_reservation on the specific reservation id with the new dates.
+        try {
+            this.record.edit_reservation(res_id, null, date_int_new, date_out_new, null, null,
+                                         null);
+        } catch (RecordsException e) {
+            out.println("An error occurred while Changing Reservation Date: " + e.getMessage());
+        }
     }
 
     /**
