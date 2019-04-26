@@ -5,14 +5,17 @@
  */
 package opheliasoasis;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+
+import static java.lang.String.format;
 
 /**
  * Represents a single reservation and valid operations on it.
  *
  * @author roanm
  */
-public class Reservation {
+public class Reservation implements Serializable {
     private ResType res_type;
     private LocalDate date_in;
     private LocalDate date_out;
@@ -103,6 +106,20 @@ public class Reservation {
     }
     public void setCheckOutStatus (Boolean NewStatus){
         is_CheckedOut = NewStatus;
+    }
+
+    public String toString() {
+        return format("Reservation(%s, in: %s, out: %s, \"%s\", <%s>, %s, %d, chgd: %b, cncl: %b, cko: %b)",
+        res_type.toString(),
+        date_in.toString(),
+        date_out.toString(),
+        name,
+        email,
+        cc.toString(),
+        roomNumber,
+        is_Changed,
+        is_Cancled,
+        is_CheckedOut);
     }
 
 }

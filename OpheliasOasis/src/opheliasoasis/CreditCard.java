@@ -5,11 +5,15 @@
  */
 package opheliasoasis;
 
+import sun.font.CreatedFontTracker;
+
+import java.io.Serializable;
+
 /**
  *
  * @author roanm
  */
-public class CreditCard {
+public class CreditCard implements Serializable {
     String CardHolder;
     int expMonth;
     int expYear;
@@ -58,5 +62,18 @@ public class CreditCard {
     }
     public void setCSV(int NewCSV){
         CSV = NewCSV;
+    }
+
+    public String toString() {
+        return String.format("CC(%s, %d/%d, ...%d, %s)", CardHolder, expMonth, expYear, cardNumber % 10000, CSV);
+    }
+
+    public boolean equals(CreditCard obj) {
+        if (obj == null) return false;
+        return this.getCardHolder() == obj.getCardHolder()
+                && this.getCardNumber() == obj.getCardNumber()
+                && this.getCSV() == obj.getCSV()
+                && this.getExpMonth() == obj.getExpMonth()
+                && this.getExpYear() == obj.getExpYear();
     }
 }

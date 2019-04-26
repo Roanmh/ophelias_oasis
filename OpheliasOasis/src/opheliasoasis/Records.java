@@ -5,8 +5,6 @@
  */
 package opheliasoasis;
 
-import javafx.util.Pair;
-
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,6 +32,8 @@ public class Records {
         // Only read_in database if needed by operation.
         this.res_db = null;
         this.rate_db = null;
+
+        fetch_db();
     }
 
     /**
@@ -47,27 +47,48 @@ public class Records {
 
     public List<Pair<Integer, Reservation>> lookup(LocalDate date_in) {
 
-        fetch_db();
-
         List<Pair<Integer, Reservation>> result = new ArrayList<>();
         for (int i = 0; i < res_db.size(); i++) {
             Reservation res = res_db.get(i);
-            if (date_in.isEqual(res.getDate_in())
-                    || date_in.isEqual(res.getDate_out())
-                    || (date_in.isAfter(res.getDate_in())
-                        && date_in.isBefore(res.getDate_out()))) {
+            if (date_in.isEqual(res.getDateIn())
+                    || date_in.isEqual(res.getDateOut())
+                    || (date_in.isAfter(res.getDateIn())
+                        && date_in.isBefore(res.getDateOut()))) {
                result.add(new Pair(i, res));
             }
         }
+
 
         return result;
     }
 
     public Reservation edit_reservation(int res_id,
-                                        Reservation.ResType res_type,
                                         LocalDate date_in, LocalDate date_out,
                                         String name,
                                         CreditCard cc, String email) {
+        Reservation res;
+        res = this.res_db.get(res_id);
+
+        if (date_in != null && date_in != res.getDateIn()) {
+            res.setDateIn(date_in);
+        }
+        if (date_out != null && date_out != res.getDateOut()) {
+            res.setDateOut(date_out);
+        }
+        if (name != null && name != res.getName()) {
+            res.setName(name);
+        }
+        if (cc != null && cc != res.getCreditCard()) {
+            res.setCreditCard(cc);
+        }
+        if (email != null && email != res.getEmail()) {
+            res.setEmail(email);
+        }
+
+        write_db();
+
+        // TODO
+        return res;
     }
 
     public Reservation create_reservation(Reservation.ResType res_type,
@@ -75,20 +96,22 @@ public class Records {
                                           String name,
                                           CreditCard cc, String email) {
 
-        fetch_db();
-
         // TODO: Update for real constructor.
-        res_db.add(new Reservation());
+        res_db.add(new Reservation(res_type,date_in, date_out, name, cc, email));
 
         write_db();
 
-        return res_db.get(res_db.size());
+        return res_db.get(res_db.size() - 1);
     }
 
-    public Reservation checkin_reservation(int res_id) {
+    // TODO: Return "Reservation"
+    public void checkin_reservation(int res_id) {
     }
 
     public void change_baseRate(LocalDate date, float new_rate) {
+
+
+        write_db();
     }
 
     public void backup_records() {
@@ -129,6 +152,10 @@ public class Records {
             out.println("Unable to write to database file.");
             e.printStackTrace();
         }
+    }
+
+    public String toString() {
+        return "Records@\"%s\"(\n" + this.res_db.toString() + "\n" + this.rate_db.toString() + "\n)\n";
     }
 
 }

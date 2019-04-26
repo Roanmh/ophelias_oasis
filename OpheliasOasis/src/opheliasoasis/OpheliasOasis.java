@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 package opheliasoasis;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,8 +24,18 @@ public class OpheliasOasis {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Software Engineering");
-        res_Create();
+//        System.out.println("Software Engineering");
+//        res_Create();
+
+        Records rec = new Records("oo.db");
+        System.out.println(rec.toString());
+
+//        rec.edit_reservation();
+
+        List<Pair<Integer, Reservation>> lookup_res = rec.lookup(LocalDate.of(2019, 04, 23));
+
+        System.out.println(lookup_res.toString());
+
     }
 
     public OpheliasOasis() {
@@ -173,7 +185,8 @@ public class OpheliasOasis {
                 System.out.print("What is the card number?\n Please only enter the numbers, no spaces or dashes.");
                 while (true){
                     temp = scanner.nextLine();
-                    if (temp.matches("[0-9}+")&& temp.length()==16){
+                    // TODO
+                    if (temp.matches("[0-9]+")&& temp.length()==16){
                         CardNumber = Integer.parseInt(temp);
                         break;
                     }
@@ -222,7 +235,8 @@ public class OpheliasOasis {
                 System.out.print("What is the card number?\n Please only enter the numbers, no spaces or dashes.");
                 while (true){
                     temp = scanner.nextLine();
-                    if (temp.matches("[0-9}+")&& temp.length()==16){
+                    // TODO
+                    if (temp.matches("[0-9]+")&& temp.length()==16){
                         CardNumber = Integer.parseInt(temp);
                         break;
                     }
@@ -279,6 +293,8 @@ public class OpheliasOasis {
      * @return
      */
     private List lookup(LocalDate date_in) {
+        // TODO
+        return null;
     }
 
     /**
@@ -288,6 +304,8 @@ public class OpheliasOasis {
      * @return
      */
     private int choose_single(LocalDate date_in) {
+        // TODO
+        return -1;
     }
 
     private void res_Cancel() {
